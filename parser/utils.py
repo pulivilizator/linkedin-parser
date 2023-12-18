@@ -30,6 +30,10 @@ class Data(NamedTuple):
     linkedin_group: str
     tags: str
 
+    def __str__(self):
+        return ', '.join([f'{name}: {data}'
+                         for name, data in zip(['company_name', 'vacancy_url', 'company_site', 'linkedin_group', 'tags'], list(self))])
+
 
 
 class Urls(NamedTuple):

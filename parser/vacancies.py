@@ -39,7 +39,6 @@ async def get_vacancies(urls: list[str], proxy: dict) -> list[Urls]:
     )
     async with ClientSession(connector=connector) as session:
         for url in urls:
-            print(1)
             soup = await get_soup(url, session)
             vacs = soup.find_all('li')
             for i in vacs:
@@ -51,10 +50,6 @@ async def get_vacancies(urls: list[str], proxy: dict) -> list[Urls]:
                                           dev_url=settings.SPECIFIC_VACANCY.format(urn, el['data-search-id'], el['data-tracking-id'])))
                 except Exception as e:
                     print(e)
-                    print(i)
-                    print(url)
-                    print(('get_vacancies'))
-                    exit()
 
         return vacancies
 
@@ -99,8 +94,7 @@ async def get_data(urls: list[Urls], proxy: dict, config: ConfigParser) -> list[
                 try:
                     linkedin_group = soup.find('span', class_='topcard__flavor').text.strip('\n ')
                 except Exception as e:
-                    print(url)
-                    print(e)
+                    pass
                 company_site = await get_company_site(linkedin_group, session)
             d = Data(company_name=name,
                      vacancy_url=user_url,
@@ -108,18 +102,20 @@ async def get_data(urls: list[Urls], proxy: dict, config: ConfigParser) -> list[
                      company_site=company_site,
                      linkedin_group=linkedin_group)
             datas.append(d)
-            print(d)
+            print(d, '\n')
     return datas
 
 async def main(config: ConfigParser) -> list[list[str]]:
     datas_lists = []
     proxies = settings_config.get_proxies()
     url_list = split_list(get_pages_urls(config), len(proxies))
+    print('Собираю ссылки на вакансии...')
     vacs = await asyncio.gather(
                                 *[asyncio.create_task(get_vacancies(urls, proxies[ind]))
                                   for ind, urls in enumerate(url_list)]
     )
     vacancies_urls = list(chunked(chain.from_iterable(vacs), 100))
+    print('Начинаю сбор данных по вакансиям...')
     for vacancies_urls_p in vacancies_urls:
         vacancies_urls_tmp = split_list(vacancies_urls_p, len(proxies))
         datas_lists_tmp = await asyncio.gather(
