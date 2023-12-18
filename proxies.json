@@ -1,0 +1,32 @@
+[
+  {
+    "server": "38.152.245.21",
+    "port": 9247,
+    "username": "zkPJz7",
+    "password": "4uqYBv"
+  },
+  {
+    "server": "95.164.200.130",
+    "port": 9340,
+    "username": "zkPJz7",
+    "password": "4uqYBv"
+  },
+  {
+    "server": "186.65.118.45",
+    "port": 9437,
+    "username": "kBEyWH",
+    "password": "6TBTvw"
+  },
+  {
+    "server": "186.65.114.108",
+    "port": 9718,
+    "username": "kBEyWH",
+    "password": "6TBTvw"
+  },
+  {
+    "server": "186.65.117.53",
+    "port": 9369,
+    "username": "kBEyWH",
+    "password": "6TBTvw"
+  }
+]
